@@ -210,6 +210,6 @@ mysqli_close($link);
             <div id="chartContainer" style="height: 370px; width: 100%; margin:0; padding:0;"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
-		
-		
+	<a href="m/index.php">Mobilní verze bez grafu</a>	
+	
 <?=template_footer()?>
