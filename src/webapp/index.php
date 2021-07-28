@@ -18,12 +18,7 @@ $sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date
 $sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date_time)) <= 168 ORDER BY date_time DESC";
 } elseif ($len == 3){
 $sql = "SELECT * FROM log WHERE DATEDIFF((SELECT CURRENT_TIMESTAMP()), date_time) <= 30 ORDER BY date_time DESC";
-} elseif ($len == 4){
-$sql = "SELECT * FROM log WHERE DATEDIFF((SELECT CURRENT_TIMESTAMP()), date_time) <= 365 ORDER BY date_time DESC";
-} elseif ($len == 5){
-$sql = "SELECT * FROM log ORDER BY date_time DESC";
-}
-else {
+} else {
 	$sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date_time)) <= 24 ORDER BY date_time DESC";
 }
 
@@ -204,9 +199,7 @@ mysqli_close($link);
 <div class="content"><h2>Historická data</h2>
 			<a href="?len=1"><button>poslední den (výchozí)</button></a>
 			<a href="?len=2"><button>poslední týden</button></a>
-			<a href="?len=3"><button>poslední měsíc</button></a>
-			<a href="?len=4"><button>poslední rok</button></a>
-			<a href="?len=5"><button>vše</button></a>
+			<a href="?len=3"><button>posledních 30 dnů</button></a>
             <div id="chartContainer" style="height: 370px; width: 100%; margin:0; padding:0;"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		</div>
