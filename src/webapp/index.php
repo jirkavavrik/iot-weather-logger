@@ -19,7 +19,7 @@ $sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date
 } elseif ($len == 3){
 $sql = "SELECT * FROM log WHERE DATEDIFF((SELECT CURRENT_TIMESTAMP()), date_time) <= 30 ORDER BY date_time DESC";
 } else {
-	$sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date_time)) <= 24 ORDER BY date_time DESC";
+$sql = "SELECT * FROM log WHERE HOUR(TIMEDIFF((SELECT CURRENT_TIMESTAMP()), date_time)) <= 24 ORDER BY date_time DESC";
 }
 
 //$sql = "SELECT * FROM log ORDER BY date_time DESC";
