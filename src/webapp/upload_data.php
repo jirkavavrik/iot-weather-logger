@@ -16,9 +16,21 @@ $temp = mysqli_real_escape_string($link, $_GET["temp"]);
 $humidity = mysqli_real_escape_string($link, $_GET["humidity"]);
 $pressure = mysqli_real_escape_string($link, $_GET["pressure"]);
 
+if( $temp == "nan") {
+	$temp = "NULL";
+} 
+
+if( $humidity == "nan") {
+	$humidity = "NULL";
+} 
+
+if( $pressure == "nan") {
+	$pressure = "NULL";
+} 
+
 // Attempt select query execution
 if(/*$_SERVER['REMOTE_ADDR'] == "194.228.20.62" && */password_verify($pass, $pass_hash)) { 
-    $query = sprintf("INSERT INTO log(date_time, temp, humidity, pressure) VALUES('%s', '%s', '%s', '%s');", $date_time, $temp, $humidity, $pressure);
+    $query = sprintf("INSERT INTO log(date_time, temp, humidity, pressure) VALUES('%s', %s, %s, %s);", $date_time, $temp, $humidity, $pressure);
 } else {
     die("not allowed");
 }
