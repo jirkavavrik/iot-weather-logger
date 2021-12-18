@@ -30,9 +30,12 @@ if($result = mysqli_query($link, $sql)){
 	$pressureDataPoints = array();
 
 	while($row = mysqli_fetch_array($result)){
-		array_push($tempDataPoints, array("x" => strtotime($row['date_time'])*1000+3600000, "y" => $row['temp']));
-		array_push($humidityDataPoints, array("x" => strtotime($row['date_time'])*1000+3600000, "y" => $row['humidity']));
-		array_push($pressureDataPoints, array("x" => strtotime($row['date_time'])*1000+3600000, "y" => $row['pressure']));
+		$date_1=date_create($row['date_time'],timezone_open("UTC"));
+		$date_1->setTimezone(timezone_open("Europe/Prague"));
+		$timestamp = $date_1->format('U'); //convert date to unix timestamp
+		array_push($tempDataPoints, array("x" => $timestamp*1000, "y" => $row['temp']));
+		array_push($humidityDataPoints, array("x" => $timestamp*1000, "y" => $row['humidity']));
+		array_push($pressureDataPoints, array("x" => $timestamp*1000, "y" => $row['pressure']));
 	}
 
 //echo json_encode($dataPoints, JSON_NUMERIC_CHECK);
