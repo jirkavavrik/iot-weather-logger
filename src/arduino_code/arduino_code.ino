@@ -68,8 +68,6 @@ void loop() {
       if(WiFi.status() == WL_CONNECTED){
         rpi_send();
         if (millis() - lastDiscordConnectionTime > discordPostingInterval || lastDiscordConnectionTime == 0 || millis() < lastDiscordConnectionTime ) {
-          String discord_message = String( "Pravidelné hlášení: teplota = " + String(t) + " C, vlhkost = " + String(h) + " %, tlak = " + String(p) + " hPa" );
-          discord_send(discord_message);
           if(outage) { discord_send("Byl zaznamenán výpadek připojení k WiFi síti, nebo bylo Raspberry Pi nějakou dobu offline - některá data pravděpodobně nebyla nahrána do databáze!"); outage = 0; }
           if(backupVoltage < 3500){ discord_send("POZOR - vybitý akumulátor, ale funkční WiFi připojení - pravděpodobný problém s napájením. Napětí (mV): " + String(backupVoltage));  }
           lastDiscordConnectionTime = millis(); //only for regular reports
