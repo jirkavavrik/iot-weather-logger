@@ -20,7 +20,6 @@ const unsigned long discordPostingInterval = 3600L * 1000L; // delay between upd
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(A1, INPUT);
   digitalWrite(LED_BUILTIN, HIGH);
   Wire.begin();
   dht.begin();
@@ -64,12 +63,10 @@ void loop() {
       h = dht.readHumidity();
       t = dht.readTemperature();
       p = (bmp180.readSealevelPressure(330)/100);
-      int backupVoltage = (analogRead(A1)) * 16113 / 1000;
       if(WiFi.status() == WL_CONNECTED){
         rpi_send();
         if (millis() - lastDiscordConnectionTime > discordPostingInterval || lastDiscordConnectionTime == 0 || millis() < lastDiscordConnectionTime ) {
           if(outage) { discord_send("Byl zaznamenán výpadek připojení k WiFi síti, nebo bylo Raspberry Pi nějakou dobu offline - některá data pravděpodobně nebyla nahrána do databáze!"); outage = 0; }
-          if(backupVoltage < 3500){ discord_send("POZOR - vybitý akumulátor, ale funkční WiFi připojení - pravděpodobný problém s napájením. Napětí (mV): " + String(backupVoltage));  }
           lastDiscordConnectionTime = millis(); //only for regular reports
         }
       } else {
