@@ -7,7 +7,7 @@
 
 Adafruit_BMP085 bmp180;
 int bmp_correction = 3550; //in Pa
-DHT dht(7, DHT22);
+DHT dht(2, DHT22);
 RTCZero rtc1;
 
 float h=0,t=0,p=0;
