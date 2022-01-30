@@ -96,7 +96,14 @@ void rpi_send() {
     #ifdef DEBUGSERIAL
     Serial.println("Connected to Raspberry Pi and sending data......");
     #endif
-    client.print("GET /upload_data.php?pass=abc123&date_time=");
+    client.println("POST /upload_data.php HTTP 1.1");
+    client.println("Host: 192.168.100.254");
+    client.println("User-Agent: ArduinoWiFi/1.1");
+    client.println("Content-Type: application/x-www-form-urlencoded");
+    client.println("Content-Length: 25");
+    client.println("Connection: close");
+    client.println();
+    client.print("pass=abc123&date_time=");
     client.print(rtc1.getYear());
     client.print("-");
     client.print(rtc1.getMonth());
@@ -113,12 +120,7 @@ void rpi_send() {
     client.print("&humidity=");
     client.print(h);
     client.print("&pressure=");
-    client.print(p);
-    client.println(" HTTP/1.1");
-    client.println("Host: 192.168.100.254");
-    client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println("Connection: close");
-    client.println();
+    client.println(p);
   } else {
     #ifdef DEBUGSERIAL
     Serial.println("connection to RPi HTTP server failed");
