@@ -16,7 +16,7 @@ echo <<<EOT
     	<div>
     		<h1>IoT meteostanice</h1>
             <a href="/"><i class="fas fa-home"></i>Domovská stránka</a>
-            <a href="phpmyadmin"><i class="fas fa-database"></i>PMA</a>
+            <a href="adminer.php"><i class="fas fa-database"></i>Adminer</a>
     		</div>
     </nav>
 EOT;
