@@ -1,8 +1,3 @@
-#include "functions.h"
-
-const char SSID[]     = SECRET_SSID;
-const char PASS[]     = SECRET_PASS;
-
 void connect_to_wifi() {
   int status = WL_IDLE_STATUS;
   
@@ -93,34 +88,20 @@ void rpi_send() {
   Serial.println("Connecting to Raspberry Pi...");
   #endif
   if (client.connect(server, 80)) {
+    
+    String content = "pass=" + String(SERVER_SECRET) + "&date_time=" + String(rtc1.getYear()) + "-" + String(rtc1.getMonth()) + "-" + String(rtc1.getDay()) + "%20" + String(rtc1.getHours()) + ":" + String(rtc1.getMinutes()) + ":" + String(rtc1.getSeconds()) + "&temp=" + String(t) + "&humidity=" + String(h) + "&pressure=" + String(p);
+    
     #ifdef DEBUGSERIAL
     Serial.println("Connected to Raspberry Pi and sending data......");
     #endif
-    client.println("POST /upload_data.php HTTP 1.1");
+    client.println("POST /upload_data.php HTTP/1.1");
     client.println("Host: 192.168.100.254");
     client.println("User-Agent: ArduinoWiFi/1.1");
     client.println("Content-Type: application/x-www-form-urlencoded");
-    client.println("Content-Length: 25");
+    client.print("Content-Length: "); client.println(String(content.length()));
     client.println("Connection: close");
     client.println();
-    client.print("pass=abc123&date_time=");
-    client.print(rtc1.getYear());
-    client.print("-");
-    client.print(rtc1.getMonth());
-    client.print("-");
-    client.print(rtc1.getDay());
-    client.print("%20");
-    client.print(rtc1.getHours());
-    client.print(":");
-    client.print(rtc1.getMinutes());
-    client.print(":");
-    client.print(rtc1.getSeconds());
-    client.print("&temp=");
-    client.print(t);
-    client.print("&humidity=");
-    client.print(h);
-    client.print("&pressure=");
-    client.println(p);
+    client.println(content);
   } else {
     #ifdef DEBUGSERIAL
     Serial.println("connection to RPi HTTP server failed");
@@ -129,6 +110,12 @@ void rpi_send() {
     analogWrite(LED_BUILTIN, 50); //turn on the led as an error sign
     delay(5000);
   }
+  #ifdef DEBUGSERIAL
+  delay(5000);
+  while(client.available()) {
+    char c = client.read();
+    Serial.print(c);  } //print server response to serial
+  #endif
   client.stop();
 }
 
