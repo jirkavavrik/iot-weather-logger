@@ -23,7 +23,7 @@ float h=0,t=0,p=0;
 int outage=0;
 
 unsigned long lastConnectionTime = 0L;       // last time you connected to the server, in milliseconds
-const unsigned long postingInterval = 120L * 1000L; // delay between updates, in milliseconds
+const unsigned long postingInterval = 150L * 1000L; // delay between updates, in milliseconds
 unsigned long lastDiscordConnectionTime = 0L;       // last time you connected to the server, in milliseconds
 const unsigned long discordPostingInterval = 3600L * 1000L; // delay between updates, in milliseconds
 
