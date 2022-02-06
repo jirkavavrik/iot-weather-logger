@@ -12,6 +12,7 @@ IoT weather logger is an Arduino-based weather station that sends data about tem
 #pragma once
 #define SECRET_SSID "your ssid"
 #define SECRET_PASS "your password"
+#define SERVER_SECRET "server_secret"
 
 ```
 
