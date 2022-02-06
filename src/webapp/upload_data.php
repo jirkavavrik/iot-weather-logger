@@ -10,11 +10,11 @@ if($link === false){
 }
 
 //escapuje nedovolené znaky ze superglob. proměnné
-$pass = mysqli_real_escape_string($link, $_GET["pass"]);
-$date_time = mysqli_real_escape_string($link, $_GET["date_time"]);
-$temp = mysqli_real_escape_string($link, $_GET["temp"]);
-$humidity = mysqli_real_escape_string($link, $_GET["humidity"]);
-$pressure = mysqli_real_escape_string($link, $_GET["pressure"]);
+$pass = mysqli_real_escape_string($link, $_POST["pass"]);
+$date_time = mysqli_real_escape_string($link, $_POST["date_time"]);
+$temp = mysqli_real_escape_string($link, $_POST["temp"]);
+$humidity = mysqli_real_escape_string($link, $_POST["humidity"]);
+$pressure = mysqli_real_escape_string($link, $_POST["pressure"]);
 
 if( $temp == "nan") {
 	$temp = "NULL";
@@ -29,7 +29,7 @@ if( $pressure == "nan") {
 } 
 
 // Attempt select query execution
-if(/*$_SERVER['REMOTE_ADDR'] == "194.228.20.62" && */password_verify($pass, $pass_hash)) { 
+if(password_verify($pass, $pass_hash)) { 
     $query = sprintf("INSERT INTO log(date_time, temp, humidity, pressure) VALUES('%s', %s, %s, %s);", $date_time, $temp, $humidity, $pressure);
 } else {
     die("not allowed");
