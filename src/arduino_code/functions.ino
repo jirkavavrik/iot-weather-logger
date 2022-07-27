@@ -65,6 +65,23 @@ void reconnect_wifi() {
   }
 }
 
+void reconnect_mqtt() {
+  while (!mqttclient.connected()) {
+    Serial.print("Attempting MQTT connection...");
+
+    if (mqttclient.connect("arduino")) {
+      Serial.println("connected");
+      //client.subscribe("inTopic");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(mqttclient.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+
 void printWifiStatus() {
   #ifdef DEBUGSERIAL
   Serial.print("SSID: ");
@@ -82,69 +99,31 @@ void printWifiStatus() {
 }
 
 void rpi_send() {
-  WiFiClient client;
-  IPAddress server(192,168,100,254);
   #ifdef DEBUGSERIAL
   Serial.println("Connecting to Raspberry Pi...");
   #endif
-  if (client.connect(server, 80)) {
-    
-    String content = "pass=" + String(SERVER_SECRET) + "&date_time=" + String(rtc1.getYear()) + "-" + String(rtc1.getMonth()) + "-" + String(rtc1.getDay()) + "%20" + String(rtc1.getHours()) + ":" + String(rtc1.getMinutes()) + ":" + String(rtc1.getSeconds()) + "&temp=" + String(t) + "&humidity=" + String(h) + "&pressure=" + String(p);
-    
+  
+  if (!mqttclient.connected()) {
+    analogWrite(LED_BUILTIN, 50); //turn on the led as an error sign
+    reconnect_mqtt();
+  }
+
     #ifdef DEBUGSERIAL
     Serial.println("Connected to Raspberry Pi and sending data......");
     #endif
-    client.println("POST /upload_data.php HTTP/1.1");
-    client.println("Host: 192.168.100.254");
-    client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println("Content-Type: application/x-www-form-urlencoded");
-    client.print("Content-Length: "); client.println(String(content.length()));
-    client.println("Connection: close");
-    client.println();
-    client.println(content);
-  } else {
-    #ifdef DEBUGSERIAL
-    Serial.println("connection to RPi HTTP server failed");
-    #endif
-    outage = 1;
-    analogWrite(LED_BUILTIN, 50); //turn on the led as an error sign
-    delay(5000);
-  }
+  
+  char payload[255];
+  sprintf(payload,"%s%f%s%f%s%f%s", "{\"temp\":\"",t,"\",\"humidity\":\"",h,"\",\"pressure\":\"",p,"\"}");
+  
+  #ifdef DEBUGSERIAL
+  Serial.println("Publishing message... payload:");
+  Serial.println(payload);
+  #endif
+  mqttclient.publish("meteostanice/data",payload);
+
+
   #ifdef DEBUGSERIAL
   delay(5000);
-  while(client.available()) {
-    char c = client.read();
-    Serial.print(c);  } //print server response to serial
   #endif
-  client.stop();
-}
-
-void discord_send(String content) {
-  const char server2[] = "discord.com";
-  const int port2 = 443;
-  WiFiSSLClient client2;
-  #ifdef DEBUGSERIAL
-  Serial.println("Connecting to Discord...");
-  #endif
-  if (client2.connect(server2, port2)) {
-    #ifdef DEBUGSERIAL
-    Serial.println("connected to Discord server and sending message...");
-    #endif
-    client2.println("POST /api/webhooks/818439468100616192/oWiqJRfiZh2o3Fu2eSHDtYBt8r2cyonL3x9ZSn6WxOIIDshvsIJlPbAaGK62bgT3Wvt3 HTTP/1.1");
-    client2.println("Host: discord.com");
-    client2.println("Content-type: application/json");
-    client2.print("Content-Length: "); //délka = 14 + (obsah zprávy)
-    client2.println(String(content.length() + 14));
-    client2.println();
-    client2.print("{\"content\":\"");
-    client2.print(content);
-    client2.println("\"}");
-  } else {
-    #ifdef DEBUGSERIAL
-    Serial.println("connection to discord failed");
-    #endif
-    analogWrite(LED_BUILTIN, 50); //turn on the led as an error sign
-    delay(5000);
-  }
-  client2.stop();
+  //wificlient.stop();
 }
