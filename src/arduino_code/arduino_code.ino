@@ -1,8 +1,7 @@
 #include <PubSubClient.h>
-//#define DEBUGSERIAL
+#define DEBUGSERIAL
 #include <ArduinoLowPower.h>
-#include <Adafruit_Sensor.h>  //needed for dht
-#include <DHT.h>
+#include "Adafruit_SHT31.h"
 #include <Adafruit_BMP085.h>
 #include <SPI.h>
 #include <WiFiNINA.h>
@@ -16,7 +15,7 @@ void reconnect_mqtt();
 
 Adafruit_BMP085 bmp180;
 int bmp_correction = 3550; //in Pa
-DHT dht(2, DHT22);
+Adafruit_SHT31 sht30 = Adafruit_SHT31(); //works also for sht30
 
 float h=0,t=0,p=0;
 int outage=0;
@@ -38,12 +37,19 @@ void setup() {
   #ifdef DEBUGSERIAL
   Serial.begin(9600);
   while (!Serial) {}
-  Serial.println("Starting.......");
+    Serial.println("Starting.......");
   #endif
 
-  Wire.begin();
-  dht.begin();
+  sht30.begin(0x44);
   bmp180.begin();
+  
+  #ifdef DEBUGSERIAL
+  Serial.print("Heater Enabled State: ");
+  if (sht30.isHeaterEnabled())
+    Serial.println("ENABLED");
+  else
+    Serial.println("DISABLED");
+  #endif
 
   connect_to_wifi();
   printWifiStatus();
@@ -65,9 +71,9 @@ void loop() {
   
   if (millis() - lastConnectionTime > postingInterval || lastConnectionTime == 0 || millis() < lastConnectionTime ) {
     WiFi.noLowPowerMode();
-    delay(2000);//otherwise the DHT doesn't read properly
-    h = dht.readHumidity();
-    t = dht.readTemperature();
+    delay(2000);
+    h = sht30.readHumidity();
+    t = sht30.readTemperature();
     p = (bmp180.readSealevelPressure(330)/100);
     if(WiFi.status() == WL_CONNECTED){
       rpi_send();
