@@ -41,16 +41,14 @@ void reconnect_wifi() {
     digitalWrite(LED_BUILTIN, HIGH);
     while (true);
   }
-  int i = 0;
   status = WiFi.status();
-  while (status != WL_CONNECTED && i < 5) {
+  while (status != WL_CONNECTED) {
     #ifdef DEBUGSERIAL
     Serial.print("[WiFi] Reconnecting to: ");
     Serial.println(SSID);
     #endif
     status = WiFi.begin(SSID, PASS);
     delay(10000);
-    i++;
   }
 
   if (status == WL_CONNECTED) {
