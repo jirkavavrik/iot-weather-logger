@@ -110,14 +110,28 @@ void rpi_send() {
     Serial.println("Connected to Raspberry Pi and sending data......");
     #endif
   
-  char payload[255];
-  sprintf(payload,"%s%f%s%f%s%f%s", "{\"temp\":\"",t,"\",\"humidity\":\"",h,"\",\"pressure\":\"",p,"\"}");
+  char payload[8];
   
+  sprintf(payload,"%.2f", t);
   #ifdef DEBUGSERIAL
   Serial.println("Publishing message... payload:");
   Serial.println(payload);
   #endif
-  mqttclient.publish("meteostanice/data",payload);
+  mqttclient.publish("meteostanice/teplota", payload, true);
+  
+  sprintf(payload,"%.2f", h);
+  #ifdef DEBUGSERIAL
+  Serial.println("Publishing message... payload:");
+  Serial.println(payload);
+  #endif
+  mqttclient.publish("meteostanice/vlhkost", payload, true);
+  
+  sprintf(payload,"%.2f", p);
+  #ifdef DEBUGSERIAL
+  Serial.println("Publishing message... payload:");
+  Serial.println(payload);
+  #endif
+  mqttclient.publish("meteostanice/tlak", payload, true);
 
 
   #ifdef DEBUGSERIAL
