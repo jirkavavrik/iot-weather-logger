@@ -1,3 +1,12 @@
+void inline heater_status_check() {
+  if(millis() - heaterTurnedOnTime > heaterOnInterval || heaterTurnedOnTime == 0 || millis() < heaterTurnedOnTime) {
+    sht30.heater(false);
+    #ifdef DEBUGSERIAL
+    Serial.println("Heater OFF - performed by function heater_status_check(); ");
+    #endif
+  }
+}
+
 void connect_to_wifi() {
   int status = WL_IDLE_STATUS;
   
@@ -24,6 +33,7 @@ void connect_to_wifi() {
 
     status = WiFi.begin(SSID, PASS);
     delay(10000);
+    heater_status_check();
   }
   #ifdef DEBUGSERIAL
   Serial.println("[WiFi] Connected");
@@ -49,6 +59,7 @@ void reconnect_wifi() {
     #endif
     status = WiFi.begin(SSID, PASS);
     delay(10000);
+    heater_status_check();
   }
 
   if (status == WL_CONNECTED) {
@@ -77,6 +88,7 @@ void reconnect_mqtt() {
       // Wait 5 seconds before retrying
       delay(5000);
     }
+    heater_status_check();
   }
 }
 

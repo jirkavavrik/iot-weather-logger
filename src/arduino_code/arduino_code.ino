@@ -12,6 +12,7 @@ void reconnect_wifi();
 void printWifiStatus();
 void rpi_send();
 void reconnect_mqtt();
+void heater_status_check();
 
 Adafruit_BMP085 bmp180;
 int bmp_correction = 3550; //in Pa
@@ -22,6 +23,9 @@ int outage=0;
 
 unsigned long lastConnectionTime = 0L;       // last time you connected to the server, in milliseconds
 const unsigned long postingInterval = 300L * 1000L; // delay between updates, in milliseconds
+
+unsigned long heaterTurnedOnTime = 0L;       // last time heater was on, in milliseconds
+const unsigned long heaterOnInterval = 60L * 1000L; //max interval for heater to be on, in milliseconds
 
 const char SSID[]     = SECRET_SSID;
 const char PASS[]     = SECRET_PASS;
@@ -75,6 +79,15 @@ void loop() {
     h = sht30.readHumidity();
     t = sht30.readTemperature();
     p = (bmp180.readSealevelPressure(330)/100);
+
+    if(h >= 50.0f) {
+      sht30.heater(true);
+      heaterTurnedOnTime = millis();
+      #ifdef DEBUGSERIAL
+      Serial.println("Heater ON");
+      #endif
+    }
+    
     if(WiFi.status() == WL_CONNECTED){
       rpi_send();
     } else {
@@ -82,12 +95,22 @@ void loop() {
       outage = 1;
       reconnect_wifi();
     }
+    
     lastConnectionTime = millis();
     WiFi.lowPowerMode();
     //flash led as a sign of a success
     analogWrite(LED_BUILTIN, 255);
     delay(200);
     analogWrite(LED_BUILTIN, 0);
+
+    while(millis() - heaterTurnedOnTime < heaterOnInterval && heaterTurnedOnTime != 0 && millis() > heaterTurnedOnTime) {
+      delay(1000);
+    }
+    sht30.heater(false);
+    #ifdef DEBUGSERIAL
+    Serial.println("Heater OFF");
+    #endif
+
   }
   #ifndef DEBUGSERIAL
   LowPower.idle(1000);
