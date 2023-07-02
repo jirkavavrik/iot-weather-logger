@@ -97,15 +97,21 @@ int reconnect_wifi() {
 int reconnect_mqtt() {
   int i = 0;
   while (!mqttclient.connected()) {
+    #ifdef DEBUGSERIAL
     Serial.print("Attempting MQTT connection...");
+    #endif
 
     if (mqttclient.connect("arduino")) {
+      #ifdef DEBUGSERIAL
       Serial.println("connected");
+      #endif
       //client.subscribe("inTopic");
     } else {
+      #ifdef DEBUGSERIAL
       Serial.print("failed, rc=");
       Serial.print(mqttclient.state());
       Serial.println(" try again in 5 seconds");
+      #endif
       // Wait 5 seconds before retrying
       delay(5000);
     }
