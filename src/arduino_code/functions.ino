@@ -1,4 +1,7 @@
 void inline heater_status_check() {
+  if (!sht30.isHeaterEnabled()) {
+    return;
+  }
   if(millis() - heaterTurnedOnTime > heaterOnInterval || heaterTurnedOnTime == 0 || millis() < heaterTurnedOnTime) {
     sht30.heater(false);
     #ifdef DEBUGSERIAL
@@ -7,7 +10,8 @@ void inline heater_status_check() {
   }
 }
 
-void connect_to_wifi() {
+int connect_to_wifi() {
+  int i = 0;
   int status = WL_IDLE_STATUS;
   
    if (WiFi.status() == WL_NO_MODULE) {
@@ -15,7 +19,7 @@ void connect_to_wifi() {
     Serial.println("Communication with WiFi module failed!");
     #endif
     digitalWrite(LED_BUILTIN, HIGH);
-    while (true);
+    return 1;//while (true);
    }
     
   String fv = WiFi.firmwareVersion();
@@ -34,13 +38,22 @@ void connect_to_wifi() {
     status = WiFi.begin(SSID, PASS);
     delay(10000);
     heater_status_check();
+    i++;
+    if(i>4) {
+      #ifdef DEBUGSERIAL
+      Serial.println("Wi-Fi (re)connection failed after reaching maximum number of attempts, exiting from connect_to_wifi();");
+      #endif
+      return 1;
+    }
   }
   #ifdef DEBUGSERIAL
   Serial.println("[WiFi] Connected");
   #endif
+  return 0;
 }
 
-void reconnect_wifi() {
+int reconnect_wifi() {
+  int i = 0;
   int status = WL_IDLE_STATUS;
   WiFi.end();
   status = WiFi.begin(SSID, PASS);
@@ -60,6 +73,13 @@ void reconnect_wifi() {
     status = WiFi.begin(SSID, PASS);
     delay(10000);
     heater_status_check();
+        i++;
+    if(i>4) {
+      #ifdef DEBUGSERIAL
+      Serial.println("Wi-Fi (re)connection failed after reaching maximum number of attempts, exiting from reconnect_wifi();");
+      #endif
+      return 1;
+    }
   }
 
   if (status == WL_CONNECTED) {
@@ -74,7 +94,8 @@ void reconnect_wifi() {
   }
 }
 
-void reconnect_mqtt() {
+int reconnect_mqtt() {
+  int i = 0;
   while (!mqttclient.connected()) {
     Serial.print("Attempting MQTT connection...");
 
@@ -89,7 +110,15 @@ void reconnect_mqtt() {
       delay(5000);
     }
     heater_status_check();
+    i++;
+    if(i>4) {
+      #ifdef DEBUGSERIAL
+      Serial.println("MQTT (re)connection failed after reaching maximum number of attempts, exiting from reconnect_mqtt();");
+      #endif
+      return 1;
+    }
   }
+  return 0;
 }
 
 void printWifiStatus() {
@@ -115,12 +144,14 @@ void rpi_send() {
   
   if (!mqttclient.connected()) {
     analogWrite(LED_BUILTIN, 50); //turn on the led as an error sign
-    reconnect_mqtt();
+    if(reconnect_mqtt() != 0) {
+      return;
+    }
   }
 
-    #ifdef DEBUGSERIAL
-    Serial.println("Connected to Raspberry Pi and sending data......");
-    #endif
+  #ifdef DEBUGSERIAL
+  Serial.println("Connected to Raspberry Pi and sending data......");
+  #endif
   
   char payload[8];
   

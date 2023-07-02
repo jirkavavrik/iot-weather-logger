@@ -1,5 +1,5 @@
 #include <PubSubClient.h>
-#define DEBUGSERIAL
+//#define DEBUGSERIAL
 #include <ArduinoLowPower.h>
 #include "Adafruit_SHT31.h"
 #include <Adafruit_BMP085.h>
@@ -7,11 +7,11 @@
 #include <WiFiNINA.h>
 #include "arduino_secrets.h"
 
-void connect_to_wifi();
-void reconnect_wifi();
+int connect_to_wifi();
+int reconnect_wifi();
 void printWifiStatus();
 void rpi_send();
-void reconnect_mqtt();
+int reconnect_mqtt();
 void heater_status_check();
 
 Adafruit_BMP085 bmp180;
@@ -25,7 +25,7 @@ unsigned long lastConnectionTime = 0L;       // last time you connected to the s
 const unsigned long postingInterval = 300L * 1000L; // delay between updates, in milliseconds
 
 unsigned long heaterTurnedOnTime = 0L;       // last time heater was on, in milliseconds
-const unsigned long heaterOnInterval = 60L * 1000L; //max interval for heater to be on, in milliseconds
+const unsigned long heaterOnInterval = 75L * 1000L; //max interval for heater to be on, in milliseconds
 
 const char SSID[]     = SECRET_SSID;
 const char PASS[]     = SECRET_PASS;
@@ -80,7 +80,7 @@ void loop() {
     t = sht30.readTemperature();
     p = (bmp180.readSealevelPressure(330)/100);
 
-    if(h >= 50.0f) {
+    if(h >= 90.0f) {
       sht30.heater(true);
       heaterTurnedOnTime = millis();
       #ifdef DEBUGSERIAL
@@ -103,13 +103,15 @@ void loop() {
     delay(200);
     analogWrite(LED_BUILTIN, 0);
 
-    while(millis() - heaterTurnedOnTime < heaterOnInterval && heaterTurnedOnTime != 0 && millis() > heaterTurnedOnTime) {
-      delay(1000);
+    if(sht30.isHeaterEnabled()) {
+      while(millis() - heaterTurnedOnTime < heaterOnInterval && heaterTurnedOnTime != 0 && millis() > heaterTurnedOnTime) {
+        delay(1000);
+      }
+      sht30.heater(false);
+      #ifdef DEBUGSERIAL
+      Serial.println("Heater OFF");
+      #endif
     }
-    sht30.heater(false);
-    #ifdef DEBUGSERIAL
-    Serial.println("Heater OFF");
-    #endif
 
   }
   #ifndef DEBUGSERIAL
