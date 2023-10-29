@@ -76,8 +76,9 @@ void loop() {
   if (millis() - lastConnectionTime > postingInterval || lastConnectionTime == 0 || millis() < lastConnectionTime ) {
     WiFi.noLowPowerMode();
     delay(2000);
-    h = sht30.readHumidity();
-    t = sht30.readTemperature();
+    /*h = sht30.readHumidity();
+    t = sht30.readTemperature();*/
+    sht30.readBoth(&t, &h);
     p = (bmp180.readSealevelPressure(330)/100);
 
     if(h >= 90.0f) {
