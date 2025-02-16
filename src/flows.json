@@ -1,0 +1,640 @@
+[
+    {
+        "id": "fbd02c9452b160fe",
+        "type": "tab",
+        "label": "Flow 1 - meteostanice",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0ac32249e48b4da2",
+        "type": "ui_gauge",
+        "z": "fbd02c9452b160fe",
+        "name": "Teplota - indikátor",
+        "group": "caee160ad529bc24",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Teplota",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "-30",
+        "max": "50",
+        "colors": [
+            "#1a5fb4",
+            "#00b500",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c50cd1722452dd7b",
+        "type": "ui_gauge",
+        "z": "fbd02c9452b160fe",
+        "name": "Vlhkost - indikátor",
+        "group": "caee160ad529bc24",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Vlhkost",
+        "label": "% RH",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#a51d2d",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 850,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1faf66db222a0ffa",
+        "type": "ui_gauge",
+        "z": "fbd02c9452b160fe",
+        "name": "Tlak - indikátor",
+        "group": "caee160ad529bc24",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Tlak",
+        "label": "hPa",
+        "format": "{{value}}",
+        "min": "960",
+        "max": "1060",
+        "colors": [
+            "#1a5fb4",
+            "#77767b",
+            "#e6e600"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 840,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "18a240f7414ececf",
+        "type": "ui_chart",
+        "z": "fbd02c9452b160fe",
+        "name": "Teplota - průběh",
+        "group": "f629eb808ffff5bb",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "label": "průběh teploty v čase",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "48",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 850,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "48ddaaf8e09833d8",
+        "type": "ui_chart",
+        "z": "fbd02c9452b160fe",
+        "name": "Vlhkost - průběh",
+        "group": "f629eb808ffff5bb",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "průběh vlhkosti v čase",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "48",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#2ca02c",
+            "#aec7e8",
+            "#ff7f0e",
+            "#000000",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 850,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "47c358ba798c79b2",
+        "type": "ui_chart",
+        "z": "fbd02c9452b160fe",
+        "name": "Tlak - průběh",
+        "group": "f629eb808ffff5bb",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "průběh tlaku v čase",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "step",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "48",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#9467bd",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#000000",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 840,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "870cd8428476a0e0",
+        "type": "blynk-iot-out-write",
+        "z": "fbd02c9452b160fe",
+        "name": "Odeslat teplotu na Blynk",
+        "pin": "0",
+        "pinmode": 0,
+        "client": "c8522eeb8d54832a",
+        "x": 870,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d97117f3501ce676",
+        "type": "blynk-iot-out-write",
+        "z": "fbd02c9452b160fe",
+        "name": "Odeslat vlhkost na Blynk",
+        "pin": "1",
+        "pinmode": 0,
+        "client": "c8522eeb8d54832a",
+        "x": 870,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4f5685474b6d5c82",
+        "type": "blynk-iot-out-write",
+        "z": "fbd02c9452b160fe",
+        "name": "Odeslat tlak na Blynk",
+        "pin": "2",
+        "pinmode": 0,
+        "client": "c8522eeb8d54832a",
+        "x": 860,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "3c93a4a6390c0f1b",
+        "type": "mqtt in",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "topic": "meteostanice/teplota",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "d5cfb555e0d2a2d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "348a7c079116c940"
+            ]
+        ]
+    },
+    {
+        "id": "73b286acc55063f8",
+        "type": "mqtt in",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "topic": "meteostanice/tlak",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "d5cfb555e0d2a2d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 340,
+        "wires": [
+            [
+                "8e3a418f4ec8583a"
+            ]
+        ]
+    },
+    {
+        "id": "d90e2989f32786d7",
+        "type": "mqtt in",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "topic": "meteostanice/vlhkost",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "d5cfb555e0d2a2d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 280,
+        "wires": [
+            [
+                "fdfac88e99270273"
+            ]
+        ]
+    },
+    {
+        "id": "348a7c079116c940",
+        "type": "function",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "func": "var hodnota;\n\n/* zaokrouhleni na 2 desetinna mista */\nhodnota = { payload: Math.round(parseFloat(msg.payload)*100)/100, topic: msg.topic };\n\nreturn hodnota;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "870cd8428476a0e0",
+                "0ac32249e48b4da2",
+                "18a240f7414ececf",
+                "068947b3d9d1db31"
+            ]
+        ]
+    },
+    {
+        "id": "fdfac88e99270273",
+        "type": "function",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "func": "var hodnota;\n\n/* zaokrouhleni na 2 desetinna mista */\nhodnota = { payload: Math.round(parseFloat(msg.payload)*100)/100, topic: msg.topic };\n\nreturn hodnota;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 280,
+        "wires": [
+            [
+                "d97117f3501ce676",
+                "c50cd1722452dd7b",
+                "48ddaaf8e09833d8",
+                "068947b3d9d1db31"
+            ]
+        ]
+    },
+    {
+        "id": "8e3a418f4ec8583a",
+        "type": "function",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "func": "var hodnota;\n\n/* zaokrouhleni na 2 desetinna mista */\nhodnota = { payload: Math.round(parseFloat(msg.payload)*100)/100, topic: msg.topic };\n\nif(hodnota.payload > 900 && hodnota.payload < 1100) { /*exclude erroneous measurements*/\n    return hodnota;\n} else return null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 320,
+        "wires": [
+            [
+                "4f5685474b6d5c82",
+                "1faf66db222a0ffa",
+                "47c358ba798c79b2",
+                "068947b3d9d1db31"
+            ]
+        ]
+    },
+    {
+        "id": "068947b3d9d1db31",
+        "type": "join",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": true,
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 590,
+        "y": 560,
+        "wires": [
+            [
+                "279108566f6c7b27",
+                "d5698b98b013d82b"
+            ]
+        ]
+    },
+    {
+        "id": "9159b27eee867172",
+        "type": "debug",
+        "z": "fbd02c9452b160fe",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "279108566f6c7b27",
+        "type": "function",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "func": "var hodnota;\n\nhodnota = { payload: \"temp=\" + msg.payload[\"meteostanice/teplota\"] + \"&rh=\" + msg.payload[\"meteostanice/vlhkost\"] + \"&mbar=\" + msg.payload[\"meteostanice/tlak\"] };\n\nreturn hodnota;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 640,
+        "wires": [
+            [
+                "5de74bcf52ae1d1a"
+            ]
+        ]
+    },
+    {
+        "id": "5de74bcf52ae1d1a",
+        "type": "http request",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://stations.windy.com/pws/update/__YOUR_WINDY_API_KEY__?{{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 950,
+        "y": 640,
+        "wires": [
+            [
+                "9159b27eee867172"
+            ]
+        ]
+    },
+    {
+        "id": "d5698b98b013d82b",
+        "type": "function",
+        "z": "fbd02c9452b160fe",
+        "name": "",
+        "func": "msg.topic = `INSERT INTO sensor_data (timestamp, temperature, humidity, pressure) VALUES (datetime('now','localtime'), $temperature, $humidity, $pressure)`;\nmsg.payload = [msg.payload[\"meteostanice/teplota\"], msg.payload[\"meteostanice/vlhkost\"], msg.payload[\"meteostanice/tlak\"]]\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 780,
+        "wires": [
+            [
+                "1d7e534d5701d277"
+            ]
+        ]
+    },
+    {
+        "id": "4763f5446435aa5f",
+        "type": "debug",
+        "z": "fbd02c9452b160fe",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "1d7e534d5701d277",
+        "type": "sqlite",
+        "z": "fbd02c9452b160fe",
+        "mydb": "d4d70d574cfcb8f6",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Save values to database",
+        "x": 810,
+        "y": 860,
+        "wires": [
+            [
+                "4763f5446435aa5f"
+            ]
+        ]
+    },
+    {
+        "id": "1a9cd503a2f7c985",
+        "type": "ui_spacer",
+        "z": "fbd02c9452b160fe",
+        "name": "spacer",
+        "group": "caee160ad529bc24",
+        "order": 3,
+        "width": "5",
+        "height": "2"
+    },
+    {
+        "id": "d3f78ff43330a733",
+        "type": "ui_spacer",
+        "z": "fbd02c9452b160fe",
+        "name": "spacer",
+        "group": "caee160ad529bc24",
+        "order": 5,
+        "width": "5",
+        "height": "2"
+    },
+    {
+        "id": "c109eeebb09e8be1",
+        "type": "ui_spacer",
+        "z": "fbd02c9452b160fe",
+        "name": "spacer",
+        "group": "caee160ad529bc24",
+        "order": 1,
+        "width": "5",
+        "height": "1"
+    },
+    {
+        "id": "caee160ad529bc24",
+        "type": "ui_group",
+        "name": "Poslední hodnoty",
+        "tab": "ed8ae96ce615d403",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f629eb808ffff5bb",
+        "type": "ui_group",
+        "name": "Vývoj v čase",
+        "tab": "ed8ae96ce615d403",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c8522eeb8d54832a",
+        "type": "blynk-iot-client",
+        "name": "Blynk client",
+        "path": "blynk.cloud",
+        "key": "YOUR BLYNK KEY",
+        "tmpl": "YOUR BLYNK TEMPLATE ID",
+        "dbg_all": false,
+        "dbg_prop": false,
+        "dbg_sync": false,
+        "dbg_low": false,
+        "dbg_pins": "",
+        "multi_cmd": false,
+        "enabled": true
+    },
+    {
+        "id": "d5cfb555e0d2a2d9",
+        "type": "mqtt-broker",
+        "name": "Raspberry MQQT",
+        "broker": "raspberrypi.local",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "180",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d4d70d574cfcb8f6",
+        "type": "sqlitedb",
+        "db": "/home/pi/history.sqlite",
+        "mode": "RWC"
+    },
+    {
+        "id": "ed8ae96ce615d403",
+        "type": "ui_tab",
+        "name": "Meteostanice venku",
+        "icon": "wi-wu-partlycloudy",
+        "disabled": false,
+        "hidden": false
+    }
+]
