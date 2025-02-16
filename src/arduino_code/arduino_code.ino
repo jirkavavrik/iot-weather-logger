@@ -81,14 +81,6 @@ void loop() {
     sht30.readBoth(&t, &h);
     p = (bmp180.readSealevelPressure(330)/100);
 
-    if(isnan(t) || isnan(h)){
-      sht30.reset();
-      #ifdef DEBUGSERIAL
-      Serial.println("SHT30 reset");
-      #endif
-      return;
-    }
-
     if(h >= 90.0f) {
       sht30.heater(true);
       heaterTurnedOnTime = millis();
